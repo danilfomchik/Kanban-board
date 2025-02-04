@@ -6,9 +6,9 @@ import ReduxProvider from "./redux/redux-provider";
 import App from "./App";
 
 createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <ReduxProvider>
-            <App />
-        </ReduxProvider>
-    </StrictMode>
+  <StrictMode>
+    <ReduxProvider>
+      <App />
+    </ReduxProvider>
+  </StrictMode>,
 );

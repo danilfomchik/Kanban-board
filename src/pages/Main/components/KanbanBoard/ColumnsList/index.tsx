@@ -8,31 +8,31 @@ import { TId } from "@/redux/columns/types";
 import { selectColumns } from "@/redux/columns/selectors";
 
 const ColumnsList = () => {
-    const dispatch = useDispatch();
-    const columns = useSelector(selectColumns);
+  const dispatch = useDispatch();
+  const columns = useSelector(selectColumns);
 
-    const columnsIds = useMemo(
-        () => columns.map((column) => column.id),
-        [columns]
-    );
+  const columnsIds = useMemo(
+    () => columns.map((column) => column.id),
+    [columns],
+  );
 
-    const onDeleteColumn = (columnId: TId) => {
-        dispatch(deleteColumn(columnId));
-    };
+  const onDeleteColumn = (columnId: TId) => {
+    dispatch(deleteColumn(columnId));
+  };
 
-    return (
-        <div className="grid grid-cols-auto-fill gap-4 w-full">
-            <SortableContext items={columnsIds}>
-                {columns.map((column) => (
-                    <Column
-                        key={column.id}
-                        column={column}
-                        onDeleteColumn={onDeleteColumn}
-                    />
-                ))}
-            </SortableContext>
-        </div>
-    );
+  return (
+    <div className="grid grid-cols-auto-fill gap-4 w-full">
+      <SortableContext items={columnsIds}>
+        {columns.map((column) => (
+          <Column
+            key={column.id}
+            column={column}
+            onDeleteColumn={onDeleteColumn}
+          />
+        ))}
+      </SortableContext>
+    </div>
+  );
 };
 
 export default ColumnsList;

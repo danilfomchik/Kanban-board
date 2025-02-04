@@ -7,27 +7,24 @@ import { TColumnDragOverlayProps } from "./types";
 import Task from "../../Column/ColumnTasksList/Task";
 
 const DragOverlay = ({
-    activeColumn,
-    activeTask,
-    onDeleteColumn,
+  activeColumn,
+  activeTask,
+  onDeleteColumn,
 }: TColumnDragOverlayProps) => {
-    return (
-        <>
-            {createPortal(
-                <DNDragOverlay>
-                    {activeColumn && (
-                        <Column
-                            column={activeColumn}
-                            onDeleteColumn={onDeleteColumn}
-                        />
-                    )}
+  return (
+    <>
+      {createPortal(
+        <DNDragOverlay>
+          {activeColumn && (
+            <Column column={activeColumn} onDeleteColumn={onDeleteColumn} />
+          )}
 
-                    {activeTask && <Task task={activeTask} />}
-                </DNDragOverlay>,
-                document.body
-            )}
-        </>
-    );
+          {activeTask && <Task task={activeTask} />}
+        </DNDragOverlay>,
+        document.body,
+      )}
+    </>
+  );
 };
 
 export default DragOverlay;

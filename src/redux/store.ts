@@ -5,15 +5,15 @@ import { PreloadedState, SliceNames } from "./types";
 import counterSlice from "./columns/columnsSlice";
 
 const combinedReducer = combineReducers({
-    [SliceNames.columnsSlice]: counterSlice.reducer,
+  [SliceNames.columnsSlice]: counterSlice.reducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState) => {
-    return configureStore({
-        reducer: combinedReducer,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-        preloadedState,
-    });
+  return configureStore({
+    reducer: combinedReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+    preloadedState,
+  });
 };
 
 const store = setupStore();
