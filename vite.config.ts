@@ -3,11 +3,12 @@ import {resolve} from 'path';
 import {defineConfig} from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-const outDir = resolve(__dirname, 'dist');
-
+// https://vite.dev/config/
 export default defineConfig({
-    plugins: [tsconfigPaths(), react()],
-    build: {
-        outDir,
+    resolve: {
+        alias: {
+            '@': resolve(__dirname, 'src/'),
+        },
     },
+    plugins: [tsconfigPaths(), react()],
 });
