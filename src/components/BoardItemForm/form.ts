@@ -1,9 +1,9 @@
 import {object, string} from 'yup';
 
 export const defaultValues = {
-    taskTitle: '',
+    field: '',
 };
 
 export const validation = object().shape({
-    taskTitle: string().required('Title is required'),
+    field: string().required('This field is required'),
 });
