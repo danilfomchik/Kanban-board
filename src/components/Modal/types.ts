@@ -5,6 +5,7 @@ export interface IOnCloseModalEvent extends MouseEvent<HTMLDivElement> {
 }
 
 export type TModalProps = PropsWithChildren<{
+    open: boolean;
     onClose?: () => void;
     className?: string;
 }>;

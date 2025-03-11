@@ -27,6 +27,7 @@ export type TSetColumnsAction = PayloadAction<TColumn[]>;
 export type TSetActiveColumnAction = PayloadAction<Nullable<TColumn>>;
 export type TSetActiveTaskAction = PayloadAction<Nullable<TTask>>;
 export type TDeleteColumnAction = PayloadAction<TId>;
+export type TCreateColumnAction = PayloadAction<{columnName: string}>;
 export type TSetColumnTitleAction = PayloadAction<{
     columnId: TId;
     newTitle: string;
