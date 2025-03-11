@@ -19,7 +19,7 @@ const ColumnsList = () => {
     };
 
     return (
-        <div className="grid grid-cols-auto-fill gap-4 w-full">
+        <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
             <SortableContext items={columnsIds}>
                 {columns.map(column => (
                     <Column key={column.id} column={column} onDeleteColumn={onDeleteColumn} />

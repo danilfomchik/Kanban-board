@@ -1,31 +1,37 @@
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
+import {SubmitHandler} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
 
+import BoardItemForm from '@/components/BoardItemForm';
+import {TFormFields} from '@/components/BoardItemForm/types';
 import Button from '@/components/Button';
+import Icon from '@/components/Icon';
 import Modal from '@/components/Modal';
-import DeleteIcon from '@/icons/DeleteIcon';
-import EditIcon from '@/icons/EditIcon';
-import {deleteTask} from '@/redux/columns/columnsSlice';
+import DeleteIconPath from '@/icons/DeleteIcon';
+import EditIconPath from '@/icons/EditIcon';
+import {deleteTask, editTask} from '@/redux/columns/columnsSlice';
+import {useModal} from '@/services/hooks';
 
-import EditTaskForm from '../../EditTaskForm';
 import {TTasksProps} from './types';
 
 const Task = ({task}: TTasksProps) => {
     const [isHover, setIsHover] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
 
     const dispatch = useDispatch();
+
+    const {isOpen, handleModalClose, handleModalOpen} = useModal();
     const {setNodeRef, attributes, listeners, transform, transition, isDragging} = useSortable({
         id: task.id,
         data: {type: 'Task', task},
-        disabled: isEditMode,
+        disabled: isOpen,
     });
 
     const style = {
         transition,
         transform: CSS.Transform.toString(transform),
+        touchAction: 'none',
     };
 
     const isDraggingStyles = isDragging ? 'opacity-50 border-2 border-sky-500' : '';
@@ -34,9 +40,25 @@ const Task = ({task}: TTasksProps) => {
         dispatch(deleteTask({taskId: task.id}));
     };
 
+    const onEditFormSubmit: SubmitHandler<TFormFields> = useCallback(
+        data => {
+            handleModalClose();
+            setIsHover(false);
+            dispatch(
+                editTask({
+                    taskId: task.id,
+                    changedValues: {
+                        title: data.field,
+                    },
+                }),
+            );
+        },
+        [dispatch, task.id, handleModalClose],
+    );
+
     return (
         <div
-            className={`flex items-center justify-between min-h-[70px] p-3 mx-3 rounded-lg bg-columnBackgroundColor border-columnBackgroundColor border-2 cursor-grab hover:border-sky-500 ${isDraggingStyles}`}
+            className={`flex items-center justify-between min-h-[70px] max-sm:min-h-[40px] p-3 mx-3 rounded-lg bg-columnBackgroundColor border-columnBackgroundColor border-2 cursor-grab hover:border-sky-500 ${isDraggingStyles}`}
             style={style}
             ref={setNodeRef}
             {...attributes}
@@ -49,13 +71,21 @@ const Task = ({task}: TTasksProps) => {
                     {isHover && (
                         <div className="flex gap-2">
                             <Button
-                                className="text-sm p-1.5"
-                                icon={<EditIcon size="size-4" />}
-                                onClick={() => setIsEditMode(true)}
+                                className="text-sm p-1.5 max-sm:p-1"
+                                icon={
+                                    <Icon size="size-4" className="max-sm:size-3">
+                                        <EditIconPath />
+                                    </Icon>
+                                }
+                                onClick={handleModalOpen}
                             />
                             <Button
-                                className="text-sm p-1.5"
-                                icon={<DeleteIcon size="size-4" />}
+                                className="text-sm p-1.5 max-sm:p-1"
+                                icon={
+                                    <Icon size="size-4" className="max-sm:size-3">
+                                        <DeleteIconPath />
+                                    </Icon>
+                                }
                                 onClick={onDeleteTask}
                             />
                         </div>
@@ -63,13 +93,14 @@ const Task = ({task}: TTasksProps) => {
                 </>
             )}
 
-            {isEditMode && (
-                <Modal
-                    className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-columnBackgroundColor bg-opacity-80"
-                    onClose={() => setIsEditMode(false)}>
-                    <EditTaskForm task={task} setIsEditMode={setIsEditMode} setIsHover={setIsHover} />
-                </Modal>
-            )}
+            <Modal open={isOpen} onClose={handleModalClose}>
+                <BoardItemForm
+                    formTitle="Edit task"
+                    defaultValues={{field: task.title}}
+                    onSubmit={onEditFormSubmit}
+                    handleModalClose={handleModalClose}
+                />
+            </Modal>
         </div>
     );
 };
