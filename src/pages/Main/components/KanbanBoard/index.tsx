@@ -22,14 +22,14 @@ const KanbanBoard = () => {
     );
 
     return (
-        <div className="m-auto flex items-center min-h-screen overflow-x-auto p-[40px] max-sm:px-[20px] sm:overflow-y-hidden">
+        <div className="flex items-center overflow-x-auto sm:overflow-y-hidden">
             <DndContext
                 sensors={sensors}
                 collisionDetection={pointerWithin}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragOver={handleDragOver}>
-                <div className="flex gap-4 items-center sm:my-auto max-sm:flex-col max-sm:w-full">
+                <div className="flex items-center max-sm:flex-col max-sm:w-full">
                     <ColumnsList />
                     <AddNewColumn />
                 </div>

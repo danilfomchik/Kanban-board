@@ -19,13 +19,17 @@ const ColumnsList = () => {
     };
 
     return (
-        <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
-            <SortableContext items={columnsIds}>
-                {columns.map(column => (
-                    <Column key={column.id} column={column} onDeleteColumn={onDeleteColumn} />
-                ))}
-            </SortableContext>
-        </div>
+        <>
+            {columns.length ? (
+                <div className="flex gap-4 mb-4 mr-4 max-sm:flex-col max-sm:w-full">
+                    <SortableContext items={columnsIds}>
+                        {columns.map(column => (
+                            <Column key={column.id} column={column} onDeleteColumn={onDeleteColumn} />
+                        ))}
+                    </SortableContext>
+                </div>
+            ) : null}
+        </>
     );
 };
 

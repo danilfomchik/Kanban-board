@@ -53,9 +53,7 @@ const BoardItemForm = ({actionType = 'edit', formTitle, defaultValues, onSubmit,
                     </div>
 
                     <Button
-                        className={`${
-                            isDirty && !errors.field && 'border-sky-500 text-sky-500'
-                        } text-sm p-2 disabled:hover:border-columnBackgroundColor disabled:text-columnBackgroundColor disabled:hover:text-columnBackgroundColor disabled:cursor-auto`}
+                        className={`${isDirty && !errors.field && 'border-sky-500 text-sky-500'} text-sm p-2 `}
                         disabled={!isDirty || !!errors.field}
                         text={actionType === 'edit' ? 'Edit' : 'Add'}
                         icon={
