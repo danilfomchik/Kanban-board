@@ -1,7 +1,7 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {uid} from 'uid';
 
-import {defaultColumns} from '@/services/constants';
+import {defaultColumns, defaultTasks} from '@/services/constants';
 import {StorageKeys} from '@/services/types';
 
 import {SliceNames} from '../types';
@@ -39,7 +39,6 @@ const reducers = {
     },
     deleteColumn: (state: TColumnsState, action: PayloadAction<TDeleteColumnAction['payload']>) => {
         const updatedColumns = state.columns.filter(column => column.id !== action.payload);
-
         const updatedTasks = state.tasks.filter(task => task.columnId !== action.payload);
 
         state.tasks = updatedTasks;
@@ -47,8 +46,10 @@ const reducers = {
 
         if (updatedColumns.length > 0) {
             localStorage.setItem(StorageKeys.colums, JSON.stringify(updatedColumns));
+            localStorage.setItem(StorageKeys.tasks, JSON.stringify(updatedTasks));
         } else {
             localStorage.removeItem(StorageKeys.colums);
+            localStorage.removeItem(StorageKeys.tasks);
         }
     },
     updateColumnTitle: (state: TColumnsState, action: PayloadAction<TSetColumnTitleAction['payload']>) => {
@@ -102,13 +103,22 @@ const reducers = {
         state.tasks = action.payload;
         localStorage.setItem(StorageKeys.tasks, JSON.stringify(action.payload));
     },
+    resetBoard: (state: TColumnsState) => {
+        state.columns = defaultColumns;
+        state.tasks = defaultTasks;
+        state.activeColumn = null;
+        state.activeTask = null;
+
+        localStorage.removeItem(StorageKeys.colums);
+        localStorage.removeItem(StorageKeys.tasks);
+    },
 };
 
 const storedColumns = localStorage.getItem(StorageKeys.colums);
 const parsedColumns = storedColumns ? JSON.parse(storedColumns) : defaultColumns;
 
 const storedTasks = localStorage.getItem(StorageKeys.tasks);
-const parsedTasks = storedTasks ? JSON.parse(storedTasks) : [];
+const parsedTasks = storedTasks ? JSON.parse(storedTasks) : defaultTasks;
 
 const initialState: TColumnsState = {
     columns: parsedColumns,
@@ -134,5 +144,6 @@ export const {
     deleteTask,
     editTask,
     reorderTasks,
+    resetBoard,
 } = columnsSlice.actions;
 export default columnsSlice;

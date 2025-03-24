@@ -12,3 +12,5 @@ export const defaultColumns = [
         title: 'Done',
     },
 ];
+
+export const defaultTasks = [];
