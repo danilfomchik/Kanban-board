@@ -52,7 +52,7 @@ const EditTitleForm = ({column, onCloseEditMode}: TEditTitleFormProps) => {
 
                 <div className="flex gap-2">
                     <Button
-                        className="text-sm p-2 disabled:hover:border-columnBackgroundColor disabled:text-columnBackgroundColor disabled:hover:text-columnBackgroundColor disabled:cursor-auto"
+                        className="text-sm p-2"
                         disabled={!isDirty}
                         icon={
                             <Icon size="size-5">
