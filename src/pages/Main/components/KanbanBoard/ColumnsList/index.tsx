@@ -21,7 +21,7 @@ const ColumnsList = () => {
     return (
         <>
             {columns.length ? (
-                <div className="flex gap-4 mb-4 mr-4 max-sm:flex-col max-sm:w-full">
+                <div className="flex gap-4 mb-4 sm:mr-4 max-sm:flex-col max-sm:w-full">
                     <SortableContext items={columnsIds}>
                         {columns.map(column => (
                             <Column key={column.id} column={column} onDeleteColumn={onDeleteColumn} />
